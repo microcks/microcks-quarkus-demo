@@ -9,24 +9,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.acme.order.BaseIntegrationTest;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
-public class OrderResourceContractTests extends BaseIntegrationTest {
+public class OrderResourcePostmanContractTests extends BaseIntegrationTest {
 
    @Inject
    ObjectMapper mapper;
 
    @Test
-   void testOpenAPIContract() throws Exception {
+   void testPostmanCollectionContract() throws Exception {
       // Ask for an Open API conformance to be launched.
       TestRequest testRequest = new TestRequest.Builder()
             .serviceId("Order Service API:0.1.0")
-            .runnerType(TestRunnerType.OPEN_API_SCHEMA.name())
+            .runnerType(TestRunnerType.POSTMAN.name())
             .testEndpoint("http://host.testcontainers.internal:" + quarkusHttpPort + "/api")
             .build();
 
