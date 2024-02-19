@@ -22,7 +22,7 @@ public class OrderResourcePostmanContractTests extends BaseIntegrationTest {
 
    @Test
    void testPostmanCollectionContract() throws Exception {
-      // Ask for an Open API conformance to be launched.
+      // Ask for a Postman Collection conformance to be launched.
       TestRequest testRequest = new TestRequest.Builder()
             .serviceId("Order Service API:0.1.0")
             .runnerType(TestRunnerType.POSTMAN.name())
