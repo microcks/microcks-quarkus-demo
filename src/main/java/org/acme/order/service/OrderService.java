@@ -9,6 +9,7 @@ import org.acme.order.service.model.ProductQuantity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,8 @@ import java.util.concurrent.ExecutionException;
  */
 @ApplicationScoped
 public class OrderService {
+
+   private static final Logger logger = Logger.getLogger(OrderService.class);
 
    // This is a dumb implementation of an event sourcing repository. Don't use this in production!
    private final Map<String, List<OrderEvent>> orderEventsRepository = new HashMap<>();
@@ -120,6 +123,7 @@ public class OrderService {
          Pastry pastry = pastryRepository.getPastry(pastryName);
          return CompletableFuture.completedFuture("available".equals(pastry.status()));
       } catch (Exception e) {
+         logger.errorf("Got exception from Pastry client: %s", e.getMessage());
          return CompletableFuture.completedFuture(false);
       }
    }

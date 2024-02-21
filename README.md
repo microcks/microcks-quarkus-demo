@@ -6,7 +6,7 @@ You will work with a Quarkus application and explore how to:
 * Use Microcks for **provisioning third-party API mocks**,
 * Use Microcks for **simulating external Kafka events publishers**,
 * Write tests using Microcks **contract-testing** features for both **REST/OpenAPI based APIs and Events/AsyncAPI** based messaging
-
+mvn
 ## Table of contents
 
 * [Step 1: Getting Started](step-1-getting-started.md)
