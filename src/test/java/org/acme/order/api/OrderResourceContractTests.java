@@ -1,25 +1,19 @@
 package org.acme.order.api;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.acme.order.BaseTest;
+import org.junit.jupiter.api.Test;
+
+import io.quarkus.test.junit.QuarkusTest;
+
 import io.github.microcks.testcontainers.MicrocksContainer;
 import io.github.microcks.testcontainers.model.TestRequest;
 import io.github.microcks.testcontainers.model.TestResult;
 import io.github.microcks.testcontainers.model.TestRunnerType;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
-import org.acme.order.BaseIntegrationTest;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @QuarkusTest
-public class OrderResourceContractTests extends BaseIntegrationTest {
-
-   @Inject
-   ObjectMapper mapper;
+public class OrderResourceContractTests extends BaseTest {
 
    @Test
    void testOpenAPIContract() throws Exception {

@@ -1,10 +1,11 @@
 package org.acme.order;
 
-import io.quarkus.test.junit.QuarkusTest;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import io.quarkus.test.junit.QuarkusTest;
+
 @QuarkusTest
-public class BaseIntegrationTest {
+public class BaseTest {
 
    @ConfigProperty(name= "quarkus.http.test-port")
    protected int quarkusHttpPort;

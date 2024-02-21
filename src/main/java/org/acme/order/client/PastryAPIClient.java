@@ -1,13 +1,14 @@
 package org.acme.order.client;
 
-import org.acme.order.client.model.Pastry;
+import java.util.List;
+
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import java.util.List;
+import org.acme.order.client.model.Pastry;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 /**
  * PastryAPIClient is responsible for requesting the product/stock management system (aka the Pastry registry)
@@ -15,7 +16,7 @@ import java.util.List;
  * @author laurent
  */
 @Path("/pastries")
-@RegisterRestClient
+@RegisterRestClient(configKey = "pastries")
 public interface PastryAPIClient {
 
    @GET
