@@ -2,11 +2,13 @@
 
 This application is a demonstration on how to use Microcks DevServices with Quarkus in your dev/test workflow
 
+![Microcks Testcontainers Quarkus demo](./assets/microcks-testcontainers-quarkus-demo.png)
+
 You will work with a Quarkus application and explore how to:
 * Use Microcks for **provisioning third-party API mocks**,
 * Use Microcks for **simulating external Kafka events publishers**,
 * Write tests using Microcks **contract-testing** features for both **REST/OpenAPI based APIs and Events/AsyncAPI** based messaging
-mvn
+
 ## Table of contents
 
 * [Step 1: Getting Started](step-1-getting-started.md)

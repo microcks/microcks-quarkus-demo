@@ -169,6 +169,12 @@ Let's understand why we got those messages at startup:
 
 And that's it! 🎉 You don't need to download and install extra-things, or clone other repositories and figure out how to start your dependant services.
 
+You can get a visual confirmation that everything is running by accessing the Quarkus Dev Console. Open a browser
+on `http://localhost:8080/q/dev-ui/extensions`, and hit the `Microcks UI` link on Microcks' extension tile. You'll get
+access to the running Microcks container and will be able to check the discovered and loaded APIs:
+
+![Qarkus Dev Console](./assets/quarkus-dev-console.png)
+
 Now, you can invoke the APIs using CURL or Postman or any of your favourite HTTP Client tools.
 
 
