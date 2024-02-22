@@ -185,7 +185,7 @@ Microcks DevServices has been initialized
 
 Let's understand why we got those messages at startup:
 
-* First, you can see that the `DevServicesKafkaProcessor` output is a bit different... This time we have a `PLAINTEXT://kafka-8fvsj:29092` endpoint and this one will be used by Microcks DevServices.
+* First, you can see that the `DevServicesKafkaProcessor` output is a bit different... This time we have a `PLAINTEXT://kafka-1sltj:29092` endpoint and this one will be used by Microcks DevServices.
 * Second, you can see that the `DevServicesMicrocksProcessor` is starting a Microcks container that will be available at `http://localhost:53309`.
 * Then, you can see that this processor is also starting a some other containers like `microcks-postman-runtime` and `microcks-uber-async-minion`.
   This is not always the case and depends on your project configuration. Those services have been started here because we have Postman Collection files in our resources and because we have a Kafka broker running.
