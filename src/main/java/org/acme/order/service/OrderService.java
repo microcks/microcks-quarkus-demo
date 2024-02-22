@@ -1,22 +1,25 @@
 package org.acme.order.service;
 
-import org.acme.order.client.PastryAPIClient;
-import org.acme.order.client.model.Pastry;
-import org.acme.order.service.model.Order;
-import org.acme.order.service.model.OrderEvent;
-import org.acme.order.service.model.OrderInfo;
-import org.acme.order.service.model.ProductQuantity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.acme.order.client.PastryAPIClient;
+import org.acme.order.service.model.Order;
+import org.acme.order.service.model.OrderEvent;
+import org.acme.order.service.model.OrderInfo;
+import org.acme.order.service.model.ProductQuantity;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import io.quarkus.logging.Log;
 
 /**
  * OrderService is responsible for checking business rules/constraints on Orders.
@@ -24,8 +27,6 @@ import java.util.concurrent.ExecutionException;
  */
 @ApplicationScoped
 public class OrderService {
-
-   private static final Logger logger = Logger.getLogger(OrderService.class);
 
    // This is a dumb implementation of an event sourcing repository. Don't use this in production!
    private final Map<String, List<OrderEvent>> orderEventsRepository = new HashMap<>();
@@ -48,10 +49,9 @@ public class OrderService {
     */
    public Order placeOrder(OrderInfo info) throws UnavailablePastryException, Exception {
       // For all products in order, check the availability calling the Pastry API.
-      Map<CompletableFuture<Boolean>, String> availabilityFutures = new HashMap<>();
-      for (ProductQuantity productQuantity : info.productQuantities()) {
-         availabilityFutures.put(checkPastryAvailability(productQuantity.productName()), productQuantity.productName());
-      }
+      var availabilityFutures = info.productQuantities().stream()
+          .map(ProductQuantity::productName)
+          .collect(Collectors.toMap(this::checkPastryAvailability, Function.identity()));
 
       // Wait for all completable future to finish.
       CompletableFuture.allOf(availabilityFutures.keySet().toArray(new CompletableFuture[0])).join();
@@ -119,13 +119,14 @@ public class OrderService {
    }
 
    private CompletableFuture<Boolean> checkPastryAvailability(String pastryName) {
-      try {
-         Pastry pastry = pastryRepository.getPastry(pastryName);
-         return CompletableFuture.completedFuture("available".equals(pastry.status()));
-      } catch (Exception e) {
-         logger.errorf("Got exception from Pastry client: %s", e.getMessage());
-         return CompletableFuture.completedFuture(false);
-      }
+      return CompletableFuture.supplyAsync(() -> {
+             Log.infof("Checking pastry availability for pastry %s", pastryName);
+             return "available".equals(pastryRepository.getPastry(pastryName).status());
+          })
+          .exceptionally(e -> {
+             Log.errorf(e, "Got exception from Pastry client: %s", e.getMessage());
+             return false;
+          });
    }
 
    private void persistOrderEvent(OrderEvent event) {

@@ -1,17 +1,18 @@
 package org.acme.order.service;
 
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
-import org.acme.order.service.model.Order;
-import org.acme.order.service.model.OrderStatus;
-import org.junit.jupiter.api.Test;
-import org.testcontainers.shaded.org.awaitility.core.ConditionTimeoutException;
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
+import jakarta.inject.Inject;
+
+import org.acme.order.service.model.Order;
+import org.acme.order.service.model.OrderStatus;
+import org.awaitility.core.ConditionTimeoutException;
+import org.junit.jupiter.api.Test;
+
+import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
 public class OrderEventListenerTests {
@@ -20,7 +21,7 @@ public class OrderEventListenerTests {
    OrderService service;
 
    @Test
-   void testEventIsConsumedAndProcessedByService() throws Exception {
+   void testEventIsConsumedAndProcessedByService() {
       try {
          await().atMost(8, TimeUnit.SECONDS)
                .pollDelay(400, TimeUnit.MILLISECONDS)
