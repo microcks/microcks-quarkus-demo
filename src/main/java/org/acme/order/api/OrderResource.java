@@ -8,7 +8,6 @@ import jakarta.ws.rs.core.Response.Status;
 
 import org.acme.order.service.OrderService;
 import org.acme.order.service.UnavailablePastryException;
-import org.acme.order.service.model.Order;
 import org.acme.order.service.model.OrderInfo;
 import org.acme.order.service.model.UnavailableProduct;
 
@@ -26,9 +25,10 @@ public class OrderResource {
 
    @POST
    public Response order(OrderInfo info) {
-      Order createdOrder = null;
       try {
-         createdOrder = service.placeOrder(info);
+         return Response.status(Status.CREATED)
+             .entity(service.placeOrder(info))
+             .build();
       } catch (UnavailablePastryException upe) {
          // We have to return a 422 (unprocessable) with correct expected type.
          return Response.status(422)
@@ -38,9 +38,5 @@ public class OrderResource {
          Log.errorf(e, "Unexpected runtime exception: %s", e.getMessage());
          return Response.serverError().build();
       }
-      // We can return a 201 with created entity.
-      return Response.status(Status.CREATED)
-          .entity(createdOrder)
-          .build();
    }
 }
