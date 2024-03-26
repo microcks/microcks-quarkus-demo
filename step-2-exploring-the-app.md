@@ -7,7 +7,7 @@ but also relies on an existing API we have [introduced in a previous post](https
 ![Order Service ecosystem](./assets/order-service-ecosystem.png)
 
 The `Order Service` application has been designed around 5 main components that are directly mapped to Quarkus components and classes:
-* The [`OrderResource`](src/main/java/org/acme/order/api/OrderResource.java) is responsible for exposing an `Order API` to the outer world.
+* The [`OrderResource`](src/main/java/org/acme/order/api/OrderResource.java) (or `OrderController` in schema below) is responsible for exposing an `Order API` to the outer world.
 * The [`OrderService`](src/main/java/org/acme/order/service/OrderService.java) is responsible for implementing the business logic around the creation of orders.
 * The [`PastryAPIClient`](src/main/java/org/acme/order/client/PastryAPIClient.java) is responsible for calling the `Pastry API` in *Product Domain* and get details or list of pastries.
 * The [`OrderEventPublisher`](src/main/java/org/acme/order/service/OrderEventPublisher.java) is responsible for publishing a message on a Kafka topic when a new [`Order`](src/main/java/org/acme/order/service/model/Order.java) is created.
