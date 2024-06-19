@@ -17,7 +17,7 @@ public class OrderEventListener {
 
    @Incoming("orders-reviewed")
    public void handleReviewedOrder(OrderEvent event) {
-      Log.infof("Receiving a reviewed order with id '%s'", event.order().getId());
+      Log.infof("Receiving a reviewed order with id '%s' for '%s'", event.order().getId(), event.order().getCustomerId());
       orderService.updateReviewedOrder(event);
    }
 }

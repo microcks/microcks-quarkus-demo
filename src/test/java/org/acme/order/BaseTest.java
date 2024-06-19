@@ -15,17 +15,4 @@ public class BaseTest {
 
    @ConfigProperty(name= "quarkus.microcks.default.http")
    protected String microcksContainerUrl;
-
-   protected String getKafkaInternalEndpoint() {
-      String kafkaEndpoint = null;
-      if (kafkaBootstrapServers.contains(",")) {
-         String[] kafkaAddresses = kafkaBootstrapServers.split(",");
-         for (String kafkaAddress : kafkaAddresses) {
-            if (kafkaAddress.startsWith("PLAINTEXT://")) {
-               kafkaEndpoint = kafkaAddress.replace("PLAINTEXT://", "");
-            }
-         }
-      }
-      return kafkaEndpoint;
-   }
 }

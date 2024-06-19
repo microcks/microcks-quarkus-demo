@@ -37,7 +37,6 @@ Server: Docker Desktop 4.27.2 (137060)
   Built:            Wed Feb  7 00:39:16 2024
   OS/Arch:          linux/arm64
   Experimental:     false
- ...
 ```
 
 ## Download the project

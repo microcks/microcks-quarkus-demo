@@ -22,6 +22,9 @@ public class OrderServiceTests extends BaseTest {
    @Inject
    OrderService service;
 
+  @InjectKafkaInternalEndpoint
+  String kafkaInternalEndpoint;
+
    @Test
    void testEventIsPublishedWhenOrderIsCreated() {
       // Prepare a Microcks test.
@@ -29,14 +32,14 @@ public class OrderServiceTests extends BaseTest {
             .serviceId("Order Events API:0.1.0")
             .filteredOperations(List.of("SUBSCRIBE orders-created"))
             .runnerType(TestRunnerType.ASYNC_API_SCHEMA.name())
-            .testEndpoint("kafka://%s/orders-created".formatted(getKafkaInternalEndpoint()))
+            .testEndpoint("kafka://%s/orders-created".formatted(kafkaInternalEndpoint))
             .timeout(5000L)
             .build();
 
       // Prepare an application Order.
       OrderInfo info = new OrderInfo("123-456-789", List.of(
             new ProductQuantity("Millefeuille", 1),
-            new ProductQuantity("Paris-Brest", 1)
+            new ProductQuantity("Eclair Cafe", 1)
       ), 8.4);
 
       try {
@@ -68,7 +71,7 @@ public class OrderServiceTests extends BaseTest {
 Things are a bit more complex here, but we'll walk through step-by-step:
 * Similar to the previous section, we prepared a Microcks-provided `TestRequest` object
     * We ask for a `AsyncAPI Schema` conformance test that will use the definition found into the `order-events-asyncapi.yaml` contract,
-    * We ask Microcks to listen to the `kafka:// + getKafkaInternalEndpoint() + /orders-created` endpoint that represents the `orders-created` topic on our Kafka broker started by Kafka Dev Services,
+    * We ask Microcks to listen to the `kafka:// + kafkaInternalEndpoint + /orders-created` endpoint that represents the `orders-created` topic on our Kafka broker started by Kafka Dev Services,
     * We ask to focus on a specific operation definition to mimic consumers that subscribe to the  `orders-created` channel,
     * We specified a timeout value that means that Microcks will only listen during 5 seconds for incoming messages.
 * We also prepared an [`OrderInfo`](src/main/java/org/acme/order/service/model/OrderInfo.java) object that will be used as the input of the `placeOrder()` method invocation on [`OrderService`](src/main/java/org/acme/order/service/OrderService.java).

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import jakarta.inject.Inject;
 
 import org.acme.order.BaseTest;
@@ -16,16 +17,22 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
+import io.github.microcks.quarkus.test.InjectKafkaInternalEndpoint;
+import io.github.microcks.quarkus.test.MicrocksTestCompanion;
 import io.github.microcks.testcontainers.MicrocksContainer;
 import io.github.microcks.testcontainers.model.TestRequest;
 import io.github.microcks.testcontainers.model.TestResult;
 import io.github.microcks.testcontainers.model.TestRunnerType;
 
 @QuarkusTest
+@QuarkusTestResource(MicrocksTestCompanion.class)
 public class OrderServiceTests extends BaseTest {
 
    @Inject
    OrderService service;
+
+   @InjectKafkaInternalEndpoint
+   String kafkaInternalEndpoint;
 
    @Test
    void testEventIsPublishedWhenOrderIsCreated() {
@@ -34,14 +41,14 @@ public class OrderServiceTests extends BaseTest {
             .serviceId("Order Events API:0.1.0")
             .filteredOperations(List.of("SUBSCRIBE orders-created"))
             .runnerType(TestRunnerType.ASYNC_API_SCHEMA.name())
-            .testEndpoint("kafka://%s/orders-created".formatted(getKafkaInternalEndpoint()))
+            .testEndpoint("kafka://%s/orders-created".formatted(kafkaInternalEndpoint))
             .timeout(5000L)
             .build();
 
       // Prepare an application Order.
       OrderInfo info = new OrderInfo("123-456-789", List.of(
             new ProductQuantity("Millefeuille", 1),
-            new ProductQuantity("Paris-Brest", 1)
+            new ProductQuantity("Eclair Cafe", 1)
       ), 8.4);
 
       try {
