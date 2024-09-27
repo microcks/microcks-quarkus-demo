@@ -54,9 +54,10 @@ public class OrderServiceTests extends BaseTest {
       try {
          // Launch the Microcks test and wait a bit to be sure it actually connects to Kafka.
          // Because of Redpanda, it must be >3 sec to ensure the consumer get a refresh of metadata and actually receive messages.
+         // Update: with Redpanda > 24, this is no longer needeed as metadata are refreshed on consumer creation.
          CompletableFuture<TestResult> testRequestFuture = MicrocksContainer.testEndpointAsync(microcksContainerUrl, kafkaTest);
 
-         TimeUnit.MILLISECONDS.sleep(3500L);
+         TimeUnit.MILLISECONDS.sleep(500L);
 
          // Invoke the application to create an order.
          Order createdOrder = service.placeOrder(info);
