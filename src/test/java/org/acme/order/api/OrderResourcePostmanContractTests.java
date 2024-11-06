@@ -13,7 +13,7 @@ import io.github.microcks.testcontainers.model.TestResult;
 import io.github.microcks.testcontainers.model.TestRunnerType;
 
 @QuarkusTest
-public class OrderResourcePostmanContractTests extends BaseTest {
+class OrderResourcePostmanContractTests extends BaseTest {
    @Test
    void testPostmanCollectionContract() throws Exception {
       // Ask for a Postman Collection conformance to be launched.

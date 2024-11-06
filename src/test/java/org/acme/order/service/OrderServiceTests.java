@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import org.acme.order.BaseTest;
 import org.acme.order.service.model.Order;
 import org.acme.order.service.model.OrderInfo;
+import org.acme.order.service.model.OrderStatus;
 import org.acme.order.service.model.ProductQuantity;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ import io.github.microcks.testcontainers.model.TestRunnerType;
 
 @QuarkusTest
 @QuarkusTestResource(MicrocksTestCompanion.class)
-public class OrderServiceTests extends BaseTest {
+class OrderServiceTests extends BaseTest {
 
    @Inject
    OrderService service;
@@ -54,7 +55,7 @@ public class OrderServiceTests extends BaseTest {
       try {
          // Launch the Microcks test and wait a bit to be sure it actually connects to Kafka.
          // Because of Redpanda, it must be >3 sec to ensure the consumer get a refresh of metadata and actually receive messages.
-         // Update: with Redpanda > 24, this is no longer needeed as metadata are refreshed on consumer creation.
+         // Update: with Redpanda > 24, this is no longer needed as metadata are refreshed on consumer creation.
          CompletableFuture<TestResult> testRequestFuture = MicrocksContainer.testEndpointAsync(microcksContainerUrl, kafkaTest);
 
          TimeUnit.MILLISECONDS.sleep(500L);
@@ -63,6 +64,7 @@ public class OrderServiceTests extends BaseTest {
          Order createdOrder = service.placeOrder(info);
 
          // You may check additional stuff on createdOrder...
+         assertEquals(OrderStatus.CREATED, createdOrder.getStatus());
 
          // Get the Microcks test result.
          TestResult testResult = testRequestFuture.get();

@@ -13,7 +13,7 @@ import io.github.microcks.testcontainers.model.TestResult;
 import io.github.microcks.testcontainers.model.TestRunnerType;
 
 @QuarkusTest
-public class OrderResourceContractTests extends BaseTest {
+class OrderResourceContractTests extends BaseTest {
 
    @Test
    void testOpenAPIContract() throws Exception {
