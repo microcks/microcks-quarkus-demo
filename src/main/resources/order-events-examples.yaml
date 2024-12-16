@@ -1,0 +1,23 @@
+apiVersion: mocks.microcks.io/v1alpha1
+kind: APIExamples
+metadata:
+  name: Order Events API
+  version: '0.1.0'
+operations:
+  PUBLISH orders-reviewed:
+    Validated OrderEvent 2:
+      eventMessage:
+        mediaType: application/json
+        payload:
+          timestamp: 1706087114346
+          order:
+            id: abc-def-ghi
+            customerId: yadayac
+            status: VALIDATED
+            productQuantities:
+              - productName: Croissant
+                quantity: 1
+              - productName: Pain Chocolat
+                quantity: 1
+            totalPrice: 4.2
+          changeReason: Validation
