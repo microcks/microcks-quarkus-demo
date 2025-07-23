@@ -58,7 +58,7 @@ class OrderServiceTests extends BaseTest {
          // Update: with Redpanda > 24, this is no longer needed as metadata are refreshed on consumer creation.
          CompletableFuture<TestResult> testRequestFuture = MicrocksContainer.testEndpointAsync(microcksContainerUrl, kafkaTest);
 
-         TimeUnit.MILLISECONDS.sleep(500L);
+         TimeUnit.MILLISECONDS.sleep(750L);
 
          // Invoke the application to create an order.
          Order createdOrder = service.placeOrder(info);
