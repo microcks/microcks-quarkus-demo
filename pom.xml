@@ -19,7 +19,7 @@
     <quarkus.platform.version>3.20.1</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.5.2</surefire-plugin.version>
-    <quarkus-microcks.version>0.4.0</quarkus-microcks.version>
+    <quarkus-microcks.version>0.4.1</quarkus-microcks.version>
   </properties>
   <dependencyManagement>
     <dependencies>
