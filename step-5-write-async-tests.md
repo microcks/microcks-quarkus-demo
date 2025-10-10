@@ -17,6 +17,7 @@ Let's review the [`OrderServiceTests`](src/test/java/org/acme/order/service/Orde
 
 ```java
 @QuarkusTest
+@QuarkusTestResource(MicrocksTestCompanion.class)
 public class OrderServiceTests extends BaseTest {
 
    @Inject
